@@ -1,7 +1,12 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "ninja", "torch", "pybind11>=2.6.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "hunyuan3d-2"
-version = "0.1.0"
-requires-python = ">=3.13"
+version = "2.0.2"
+description = "Hunyuan3D 2.0 - Advanced 3D synthesis system"
+requires-python = ">=3.8"
 dependencies = [
     "accelerate>=1.6.0",
     "diffusers>=0.33.1",
@@ -25,3 +30,36 @@ dependencies = [
     "uvicorn>=0.34.2",
     "xatlas>=0.0.10",
 ]
+
+[tool.setuptools]
+packages = ["hy3dgen"]
+package-data = {"hy3dgen": ["assets/*", "assets/**/*"]}
+
+[tool.setuptools.dynamic]
+version = {attr = "hy3dgen.__version__"}
+
+[tool.setuptools.cmdclass]
+build_ext = "torch.utils.cpp_extension.BuildExtension"
+
+[tool.setuptools.ext_modules]
+custom_rasterizer = {sources = [
+    "hy3dgen/texgen/custom_rasterizer/lib/custom_rasterizer_kernel/rasterizer.cpp",
+    "hy3dgen/texgen/custom_rasterizer/lib/custom_rasterizer_kernel/grid_neighbor.cpp",
+    "hy3dgen/texgen/custom_rasterizer/lib/custom_rasterizer_kernel/rasterizer_gpu.cu"
+]}
+
+mesh_processor = {
+    sources = ["hy3dgen/texgen/differentiable_renderer/mesh_processor.cpp"],
+    language = "c++",
+    include_dirs = ["pybind11.get_include()", "pybind11.get_include(user=True)"],
+    extra_compile_args = {
+        "win32": ["/O2", "/std:c++14", "/EHsc", "/MP", "/DWIN32_LEAN_AND_MEAN", "/bigobj"],
+        "linux": ["-O3", "-std=c++14", "-fPIC", "-Wall", "-Wextra", "-pthread"],
+        "darwin": ["-O3", "-std=c++14", "-fPIC", "-Wall", "-Wextra", "-stdlib=libc++", "-mmacosx-version-min=10.14"]
+    },
+    extra_link_args = {
+        "win32": [],
+        "linux": ["-fPIC", "-pthread"],
+        "darwin": ["-fPIC", "-stdlib=libc++", "-mmacosx-version-min=10.14", "-dynamiclib"]
+    }
+}
