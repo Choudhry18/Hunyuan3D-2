@@ -44,3 +44,31 @@ setup(
         'onnxruntime'
     ]
 )
+# from setuptools import setup
+# from torch.utils.cpp_extension import BuildExtension, CUDAExtension, CppExtension
+# import pybind11
+
+# print("this ran")
+# ext_modules = [
+#     CUDAExtension(
+#         name="custom_rasterizer",
+#         sources=[
+#             "hy3dgen/texgen/custom_rasterizer/lib/custom_rasterizer_kernel/rasterizer.cpp",
+#             "hy3dgen/texgen/custom_rasterizer/lib/custom_rasterizer_kernel/grid_neighbor.cpp",
+#             "hy3dgen/texgen/custom_rasterizer/lib/custom_rasterizer_kernel/rasterizer_gpu.cu"
+#         ],
+#     ),
+#     CppExtension(
+#         name="mesh_processor",
+#         sources=["hy3dgen/texgen/differentiable_renderer/mesh_processor.cpp"],
+#         include_dirs=[pybind11.get_include(), pybind11.get_include(user=True)],
+#         extra_compile_args={
+#             "cxx": ["-O3", "-std=c++14", "-fPIC", "-Wall", "-Wextra"]
+#         },
+#         extra_link_args=["-fPIC"]
+#     )
+# ]
+
+# setup(
+#     cmdclass={"build_ext": BuildExtension},
+#     ext_modules=ext_modules,
