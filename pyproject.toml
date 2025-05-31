@@ -41,3 +41,8 @@ version = {attr = "hy3dgen.__version__"}
 
 [tool.setuptools.cmdclass]
 build_ext = "torch.utils.cpp_extension.BuildExtension"
+
+[tool.uv.workspace]
+members = [
+    "hy3dgen/texgen/differentiable_renderer",
+]

@@ -57,6 +57,7 @@ ext_modules = [
 setup(
     name="mesh_processor",
     ext_modules=ext_modules,
+    py_modules=["mesh_processor", "camera_utils", "mesh_render", "mesh_utils"],
     install_requires=['pybind11>=2.6.0'],
     python_requires='>=3.6',
 )

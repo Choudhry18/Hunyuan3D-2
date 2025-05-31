@@ -7,3 +7,4 @@ mesh = pipeline(image='assets/demo.png')[0]
 
 pipeline = Hunyuan3DPaintPipeline.from_pretrained('tencent/Hunyuan3D-2')
 mesh = pipeline(mesh, image='assets/demo.png')
+mesh.export('assets/demo_mesh.ply')
